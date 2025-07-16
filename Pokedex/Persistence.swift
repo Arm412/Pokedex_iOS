@@ -35,7 +35,8 @@ struct PersistenceController {
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         } else {
-            container.persistentStoreDescriptions.first!.url = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.Adam.PokemonGroup")!.appending(path: "Pokedex.sqlite")
+            let documentDirectoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            container.persistentStoreDescriptions.first!.url = documentDirectoryURL.appendingPathComponent("Pokedex.sqlite")
         }
 
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
