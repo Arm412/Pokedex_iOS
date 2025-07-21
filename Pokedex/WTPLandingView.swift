@@ -14,15 +14,14 @@ struct WTPLandingView: View {
         VStack {
             Text("WHO's THAT POKEMON?")
                 .font(.custom("Indie Flower", size: 60))
-            .multilineTextAlignment(.center)
-            .padding(.top, 100)
-            .foregroundStyle(Color.black)
+                .multilineTextAlignment(.center)
+                .padding(.top, 100)
+                .foregroundStyle(Color.black)
             Spacer()
             NavigationLink(destination: WTPView(pokemon: pokemon)) {
                 Text("Play")
                     .font(.custom("Indie Flower", size: 60))
                     .foregroundStyle(Color.red)
-                    .navigationBarTitle("Who's That Pokemon", displayMode: .inline)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

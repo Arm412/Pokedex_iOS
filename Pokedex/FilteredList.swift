@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FilteredList: View {
     @Binding var showFavorites: Bool
+    @Binding var showShiny: Bool
     @Binding var typeFilter: String
 
     @Environment(\.colorScheme) var colorScheme
@@ -18,7 +19,7 @@ struct FilteredList: View {
     var body: some View {
         List(filteredPokemon) { pokemon in
             NavigationLink(value: pokemon) {
-                AsyncImage(url: pokemon.sprite) { image in
+                AsyncImage(url: showShiny ? pokemon.shiny : pokemon.sprite) { image in
                     image
                         .resizable()
                         .scaledToFit()
@@ -53,14 +54,19 @@ struct FilteredList_Previews: PreviewProvider {
             get: { true },
             set: { _ in }
         )
-
+        
+        let showShiny = Binding<Bool>(
+            get: { false },
+            set: { _ in }
+        )
+        
         let typeFilter = Binding<String>(
             get: { "all" },
             set: { _ in }
         )
-
+        
         FilteredList(
-            showFavorites: showFavorites,
+            showFavorites: showFavorites, showShiny: showShiny,
             typeFilter: typeFilter,
             filteredPokemon: [SamplePokemon.samplePokemon]
         )
