@@ -14,10 +14,12 @@ struct ContentView: View {
     ) private var favorites: FetchedResults<Pokemon>
 
     @State var filterByFavorites = false
-    @State var typeFilter = FilterTypes.noFilter.rawValue
-    @State var showTypeFilterMenu = false
-    @State var showSearch = false
     @State var inputSearch = ""
+    @State var showSearch = false
+    @State var showShiny = false
+    @State var showTypeFilterMenu = false
+    @State var typeFilter = FilterTypes.noFilter.rawValue
+
     @StateObject private var pokemonVM = PokemonViewModel(controller: FetchController())
 
     @Environment(\.colorScheme) var colorScheme
@@ -67,7 +69,7 @@ struct ContentView: View {
                             .shadow(radius: 5)
                         }
 
-                        FilteredList(showFavorites: $filterByFavorites, typeFilter: $typeFilter, filteredPokemon: filteredPokemon)
+                        FilteredList(showFavorites: $filterByFavorites, showShiny: $showShiny, typeFilter: $typeFilter, filteredPokemon: filteredPokemon)
                             .navigationTitle(showTypeFilterMenu ? "Filter" : "Pokedex")
                             .toolbar {
                                 ToolbarItem(placement: .topBarLeading) {
@@ -108,6 +110,28 @@ struct ContentView: View {
                                     }
                                 }
                             }
+                    }
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                withAnimation(.easeInOut) {
+                                    showShiny.toggle()
+                                }
+                            }) {
+                                HStack {
+                                    Image(systemName: showShiny ? "wand.and.stars" : "wand.and.stars.inverse")
+                                        .foregroundColor(.white)
+                                        .imageScale(.large)
+                                        .padding()
+                                }
+                                .background(showShiny ? Color.yellow : Color.blue)
+                                .clipShape(Capsule())
+                                .shadow(radius: 5)
+                                .padding(.trailing, 25)
+                            }
+                        }
                     }
                     if showTypeFilterMenu {
                         FilterTypesMenu(typeFilter: $typeFilter)
